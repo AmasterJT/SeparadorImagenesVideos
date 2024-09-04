@@ -46,9 +46,12 @@ def separar_archivos(carpeta_original):
 
 if __name__ == "__main__":
     # Especifica la ruta de la carpeta original y las carpetas de destino
-    ruta_carpeta_original = "D:\Imágenes\imágenes-iphone8-2024"
+    # ruta_carpeta_original = "D:\Imágenes\imágenes-iphone8-2024"
     # ruta_carpeta_fotos = "ruta/a/tu/carpeta/FOTOS"
     # ruta_carpeta_videos = "ruta/a/tu/carpeta/VIDEOS"
 
     # Llama a la función para separar los archivos
-    separar_archivos(ruta_carpeta_original)
+    # separar_archivos(ruta_carpeta_original)
+
+    separar_archivos(
+        input("Ingrese la ruta de la carpeta donde se encuentran los archivos"))
