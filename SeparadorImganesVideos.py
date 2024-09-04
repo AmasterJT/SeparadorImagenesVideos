@@ -1,11 +1,13 @@
 import os
 import shutil
+import argparse
+
 from rich import print as rprint
 
 from extensiones import EXTENSIONES
 
 
-def separar_archivos(carpeta_original):
+def separar_archivos(carpeta_original, verbose: False):
 
     carpeta_fotos = carpeta_original + "/FOTOS"
     carpeta_videos = carpeta_original + "/VIDEOS"
@@ -33,15 +35,37 @@ def separar_archivos(carpeta_original):
         # Determinar si es una imagen o un video y moverlo a la carpeta correspondiente
         if extension in extensiones_imagenes:
             shutil.move(ruta_archivo, os.path.join(carpeta_fotos, archivo))
-            # print(f"Se movió '{archivo}' a la carpeta 'FOTOS'")
+            if verbose:
+                print(f"Se movió '{archivo}' a la carpeta 'FOTOS'")
         elif extension in extensiones_videos:
             shutil.move(ruta_archivo, os.path.join(carpeta_videos, archivo))
-            # print(f"Se movió '{archivo}' a la carpeta 'VIDEOS'")
+            if verbose:
+                print(f"Se movió '{archivo}' a la carpeta 'VIDEOS'")
         elif os.path.isdir(carpeta_original + f"\{archivo}"):
             rprint("[yellow]" + f"'{archivo}' es un diretorio" + "[/yellow]")
         else:
             rprint("[red]" +
                    f"El archivo '{archivo}' no es una imagen ni un video y no se movió."+"[/red]")
+
+
+def main():
+
+    # Crear el objeto ArgumentParser
+    parser = argparse.ArgumentParser(
+        description='Descripción de lo que hace el script.')
+
+    # Agregar parametros
+    parser.add_argument('--verbose', '-v', action='store_true',
+                        help='Imprimir mensajes detallados.')
+    # Agregar argumentos
+    parser.add_argument('input', type=str,
+                        help='Ruta del archivo de la carpeta.')
+
+    # Parsear los argumentos
+    args = parser.parse_args()
+
+    separar_archivos(
+        args.input, args.verbose)
 
 
 if __name__ == "__main__":
@@ -53,5 +77,4 @@ if __name__ == "__main__":
     # Llama a la función para separar los archivos
     # separar_archivos(ruta_carpeta_original)
 
-    separar_archivos(
-        input("Ingrese la ruta de la carpeta donde se encuentran los archivos"))
+    main()
